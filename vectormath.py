@@ -22,6 +22,10 @@ class Vector3:
         self = vector3_copy(a)
         return
 
+    def __hash__(self):
+        """Devuelve el hash del vector "self"."""
+        return hash((self.x, self.y, self.z))
+
     def __repr__(self):
         """Devuelve una cadena que representa al vector "self"."""
         return vector3_repr(self)
@@ -48,12 +52,12 @@ class Vector3:
                 vector3_add(
                     vector3_scale(rotvec, math.cos(angle)),
                     vector3_scale(
-                        vector3_dot_prod(axis, rotvec),
+                        vector3_cross_prod(axis, rotvec),
                         math.sin(angle))),
                 vector3_scale(
                     vector3_scale(
                         axis,
-                        vector3_cross_prod(axis, rotvec)),
+                        vector3_dot_prod(axis, rotvec)),
                     1-math.cos(angle)))
         # Restaurar posición inicial
         rotvec += pivot_vec
@@ -140,3 +144,6 @@ def vector3_dot_prod(a, b):
 
 def vector3_repr(a):
     return f"Vector3({a.x}, {a.y}, {a.z})"
+
+def vector3_fstr(a,n=3):
+    return f"Vector3({a.x:.3f}, {a.y:.3f}, {a.z:.3f})"
